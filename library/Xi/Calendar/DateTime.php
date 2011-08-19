@@ -508,7 +508,7 @@ class DateTime
 	 * @param int $value
 	 * @return DateTime
 	 */
-	public function withModifiedProperty($property, $value)
+	protected function withModifiedProperty($property, $value)
 	{
 	    return $this->withModifiedProperties(function($p) use($property, $value) {
 	        $p[$property] = $value;
@@ -520,7 +520,7 @@ class DateTime
 	 * @param callback($properties) $modification
 	 * @return DateTime
 	 */
-	public function withModifiedProperties($modification)
+	protected function withModifiedProperties($modification)
 	{
 	    $properties = $this->getProperties();
 	    return $this->withProperties($modification($properties));
