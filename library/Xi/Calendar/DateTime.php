@@ -162,160 +162,160 @@ class DateTime
     {
         return $this->datetime->getTimezone();
     }
-	
-	/**
-	 * @return int between 1 and 31
-	 */
-	public function getDayOfMonth()
-	{
-		return $this->getProperty('mday');
-	}
-	
-	/**
-	 * @return int between 1 and 31
-	 */
-	public function getDaysInMonth()
-	{
-	    $properties = $this->getProperties();
-	    rturn cal_days_in_month(CAL_GREGORIAN, $properties['mon'], $properties['year']);
-	}
-	
-	/**
-	 * @return int between 1 and 366
-	 */
-	public function getDayOfYear()
-	{
-		return $this->getProperty('yday');
-	}
-	
-	/**
-	 * Get ISO 8601 week number
-	 * 
-	 * @return int between 1 and 53
-	 */
-	public function getWeek()
-	{
-		return (int) $this->format('W');
-	}
-	
-	/**
-	 * @return int between 1 and 7 (starts from monday)
-	 */
-	public function getDayOfWeek()
-	{
-		return $this->getProperty('wday');
-	}
-	
-	/**
-	 * @return int between 1 and 12
-	 */
-	public function getMonth()
-	{
-		return $this->getProperty('mon');
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getYear()
-	{
-		return $this->getProperty('year');
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getHour()
-	{
-	    return $this->getProperty('hours');
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getMinute()
-	{
-	    return $this->getProperty('minutes');
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getSecond()
-	{
-	    return $this->getProperty('seconds');
-	}
-	
-	/**
-	 * Get properties of current date. Similar to PHP's getdate() but weekdays
-	 * and days of the year start from 1.
-	 * 
-	 * Output is cached; safe to call multiple times.
-	 *
-	 * @return array
-	 */
-	protected function getProperties()
-	{
-	    if (null === $this->properties) {
-    		$p = getdate($this->getTimestamp());
-    		
-    		// Weekdays start from monday as 1
-    		if (!$p['wday'])
-    		{
-    			$p['wday'] = 7;
-    		}
-		
-    		// Day of year starts not from 0 but 1
-    		$p['yday']++;
-    		
-    		$this->properties = $p;
-	    }
-		return $this->properties;
-	}
-	
-	/**
-	 * Get $property from getProperties()
-	 * 
-	 * @param string $property
-	 * @return mixed
-	 */
-	protected function getProperty($property)
-	{
-		$p = $this->getProperties();
-		return $p[$property];
-	}
     
-	/**
-	 * Get a new DateTime with the specified year, month and day. Does not
-	 * modify hour, minute and second components.
-	 * 
-	 * @param int $year
-	 * @param int $month
-	 * @param int $day
-	 * @return DateTime
-	 */
-	public function withDate($year, $month, $day)
-	{
+    /**
+     * @return int between 1 and 31
+     */
+    public function getDayOfMonth()
+    {
+        return $this->getProperty('mday');
+    }
+    
+    /**
+     * @return int between 1 and 31
+     */
+    public function getDaysInMonth()
+    {
+        $properties = $this->getProperties();
+        rturn cal_days_in_month(CAL_GREGORIAN, $properties['mon'], $properties['year']);
+    }
+    
+    /**
+     * @return int between 1 and 366
+     */
+    public function getDayOfYear()
+    {
+        return $this->getProperty('yday');
+    }
+    
+    /**
+     * Get ISO 8601 week number
+     * 
+     * @return int between 1 and 53
+     */
+    public function getWeek()
+    {
+        return (int) $this->format('W');
+    }
+    
+    /**
+     * @return int between 1 and 7 (starts from monday)
+     */
+    public function getDayOfWeek()
+    {
+        return $this->getProperty('wday');
+    }
+    
+    /**
+     * @return int between 1 and 12
+     */
+    public function getMonth()
+    {
+        return $this->getProperty('mon');
+    }
+    
+    /**
+     * @return int
+     */
+    public function getYear()
+    {
+        return $this->getProperty('year');
+    }
+    
+    /**
+     * @return int
+     */
+    public function getHour()
+    {
+        return $this->getProperty('hours');
+    }
+    
+    /**
+     * @return int
+     */
+    public function getMinute()
+    {
+        return $this->getProperty('minutes');
+    }
+    
+    /**
+     * @return int
+     */
+    public function getSecond()
+    {
+        return $this->getProperty('seconds');
+    }
+    
+    /**
+     * Get properties of current date. Similar to PHP's getdate() but weekdays
+     * and days of the year start from 1.
+     * 
+     * Output is cached; safe to call multiple times.
+     *
+     * @return array
+     */
+    protected function getProperties()
+    {
+        if (null === $this->properties) {
+            $p = getdate($this->getTimestamp());
+            
+            // Weekdays start from monday as 1
+            if (!$p['wday'])
+            {
+                $p['wday'] = 7;
+            }
+        
+            // Day of year starts not from 0 but 1
+            $p['yday']++;
+            
+            $this->properties = $p;
+        }
+        return $this->properties;
+    }
+    
+    /**
+     * Get $property from getProperties()
+     * 
+     * @param string $property
+     * @return mixed
+     */
+    protected function getProperty($property)
+    {
+        $p = $this->getProperties();
+        return $p[$property];
+    }
+    
+    /**
+     * Get a new DateTime with the specified year, month and day. Does not
+     * modify hour, minute and second components.
+     * 
+     * @param int $year
+     * @param int $month
+     * @param int $day
+     * @return DateTime
+     */
+    public function withDate($year, $month, $day)
+    {
         return $this->withModification(function($datetime) use($year, $month, $day) {
             $datetime->setDate($year, $month, $day);
         });
     }
-	
-	/**
-	 * Get a new DateTime with the specified ISO 8601 year, week and day. Does
-	 * not modify hour, minute and second components.
-	 * 
-	 * @param int $year
-	 * @param int $week
-	 * @param int $day optional, defaults to 1 (monday)
-	 * @return DateTime
-	 */
-	public function withISODate($year, $week, $day = 1)
-	{
+    
+    /**
+     * Get a new DateTime with the specified ISO 8601 year, week and day. Does
+     * not modify hour, minute and second components.
+     * 
+     * @param int $year
+     * @param int $week
+     * @param int $day optional, defaults to 1 (monday)
+     * @return DateTime
+     */
+    public function withISODate($year, $week, $day = 1)
+    {
         return $this->withModification(function($datetime) use($year, $week, $day) {
             $datetime->setISODate($year, $week, $day);
         });
-	}
+    }
     
     /**
      * Get a new DateTime with the specified hour, minute and second. Does not
@@ -390,106 +390,106 @@ class DateTime
         }
         return $this->datetime->diff($other);
     }
-	
-	/**
-	 * @param int $year
-	 * @return DateTime
-	 */
-	public function withYear($year)
-	{
-	    return $this->withModifiedProperty('year', $year);
-	}
-	
-	/**
-	 * @param int $yday
-	 * @return DateTime
-	 */
-	public function withDayOfYear($yday)
-	{
-	    return $this->withProperties(array(
-	        'mon' => 1,
-	        'mday' => $yday
-	    ));
-	}
-	
-	/**
-	 * @param int $month
-	 * @return DateTime
-	 */
-	public function withMonth($month)
-	{
-	    return $this->withModifiedProperty('mon', $month);
-	}
     
-	/**
-	 * @param int $dayOfMonth
-	 * @return DateTime
-	 */
-	public function withDayOfMonth($dayOfMonth)
-	{
-	    return $this->withModifiedProperty('mday', $dayOfMonth);
-	}
-	
-	/**
-	 * With modified ISO 8601 week number
-	 * 
-	 * @param int $wnumber
-	 * @return Date
-	 */
-	public function withWeek($wnumber)
-	{
-	    return $this->withISODate($this->getYear(), $wnumber, $this->getDayOfWeek());
-	}
-	
-	/**
-	 * @param int $weekday 1 (monday) through 7 (sunday)
-	 * @return DateTime
-	 */
-	public function withDayOfWeek($weekday)
-	{
-	    return $this->withISODate($this->getYear(), $this->getWeek(), $weekday);
-	}
-	
-	/**
-	 * @param int $hour
-	 * @return DateTime
-	 */
-	public function withHour($hour)
-	{
-	    return $this->withModifiedProperty('hours', $hour);
-	}
-	
-	/**
-	 * @param int $minute
-	 * @return DateTime
-	 */
-	public function withMinute($minute)
-	{
-	    return $this->withModifiedProperty('minutes', $minute);
-	}
-	
-	/**
-	 * @param int $second
-	 * @return DateTime
-	 */
-	public function withSecond($second)
-	{
-	    return $this->withModifiedProperty('seconds', $second);
-	}
-	
-	/**
-	 * Creates a new DateTime with the given modification applied to the
-	 * current native PHP DateTime object.
-	 *
-	 * @param callback(NativeDateTime) $modification
-	 * @return DateTime
-	 */
-	protected function withModification($modification)
-	{
-	    $datetime = clone $this->datetime;
-	    $modification($datetime);
-	    return new static($datetime);
-	}
+    /**
+     * @param int $year
+     * @return DateTime
+     */
+    public function withYear($year)
+    {
+        return $this->withModifiedProperty('year', $year);
+    }
+    
+    /**
+     * @param int $yday
+     * @return DateTime
+     */
+    public function withDayOfYear($yday)
+    {
+        return $this->withProperties(array(
+            'mon' => 1,
+            'mday' => $yday
+        ));
+    }
+    
+    /**
+     * @param int $month
+     * @return DateTime
+     */
+    public function withMonth($month)
+    {
+        return $this->withModifiedProperty('mon', $month);
+    }
+    
+    /**
+     * @param int $dayOfMonth
+     * @return DateTime
+     */
+    public function withDayOfMonth($dayOfMonth)
+    {
+        return $this->withModifiedProperty('mday', $dayOfMonth);
+    }
+    
+    /**
+     * With modified ISO 8601 week number
+     * 
+     * @param int $wnumber
+     * @return Date
+     */
+    public function withWeek($wnumber)
+    {
+        return $this->withISODate($this->getYear(), $wnumber, $this->getDayOfWeek());
+    }
+    
+    /**
+     * @param int $weekday 1 (monday) through 7 (sunday)
+     * @return DateTime
+     */
+    public function withDayOfWeek($weekday)
+    {
+        return $this->withISODate($this->getYear(), $this->getWeek(), $weekday);
+    }
+    
+    /**
+     * @param int $hour
+     * @return DateTime
+     */
+    public function withHour($hour)
+    {
+        return $this->withModifiedProperty('hours', $hour);
+    }
+    
+    /**
+     * @param int $minute
+     * @return DateTime
+     */
+    public function withMinute($minute)
+    {
+        return $this->withModifiedProperty('minutes', $minute);
+    }
+    
+    /**
+     * @param int $second
+     * @return DateTime
+     */
+    public function withSecond($second)
+    {
+        return $this->withModifiedProperty('seconds', $second);
+    }
+    
+    /**
+     * Creates a new DateTime with the given modification applied to the
+     * current native PHP DateTime object.
+     *
+     * @param callback(NativeDateTime) $modification
+     * @return DateTime
+     */
+    protected function withModification($modification)
+    {
+        $datetime = clone $this->datetime;
+        $modification($datetime);
+        return new static($datetime);
+    }
     
     /**
      * @param int|DateInterval $value
@@ -502,58 +502,58 @@ class DateTime
         }
         return $interval;
     }
-	
-	/**
-	 * @param string $property
-	 * @param int $value
-	 * @return DateTime
-	 */
-	protected function withModifiedProperty($property, $value)
-	{
-	    return $this->withModifiedProperties(function($p) use($property, $value) {
-	        $p[$property] = $value;
-	        return $p;
-	    });
-	}
-	
-	/**
-	 * @param callback($properties) $modification
-	 * @return DateTime
-	 */
-	protected function withModifiedProperties($modification)
-	{
-	    $properties = $this->getProperties();
-	    return $this->withProperties($modification($properties));
-	}
-	
-	/**
-	 * Modifies the timestamp represented by this Date according to 'year',
-	 * 'mday', 'mon', 'hours', 'minutes' and 'seconds' keys from $properties.
-	 * The keys correspond to those output by getProperties().
-	 * 
-	 * Retrieves default values for properties from getProperties().
-	 * 
-	 * @param array $properties
-	 * @return Date
-	 */
-	protected function withProperties($properties)
-	{
-	    return new static($this->propertiesToTimestamp($properties + $this->getProperties()));
-	}
-	
-	/**
-	 * @param array $properties
-	 * @return int
-	 */
-	protected function propertiesToTimestamp($properties)
-	{
-	    return mktime(
-	        $properties['hours'],
-	        $properties['minutes'],
-	        $properties['seconds'],
-	        $properties['mon'],
-	        $properties['mday'],
-	        $properties['year']
+    
+    /**
+     * @param string $property
+     * @param int $value
+     * @return DateTime
+     */
+    protected function withModifiedProperty($property, $value)
+    {
+        return $this->withModifiedProperties(function($p) use($property, $value) {
+            $p[$property] = $value;
+            return $p;
+        });
+    }
+    
+    /**
+     * @param callback($properties) $modification
+     * @return DateTime
+     */
+    protected function withModifiedProperties($modification)
+    {
+        $properties = $this->getProperties();
+        return $this->withProperties($modification($properties));
+    }
+    
+    /**
+     * Modifies the timestamp represented by this Date according to 'year',
+     * 'mday', 'mon', 'hours', 'minutes' and 'seconds' keys from $properties.
+     * The keys correspond to those output by getProperties().
+     * 
+     * Retrieves default values for properties from getProperties().
+     * 
+     * @param array $properties
+     * @return Date
+     */
+    protected function withProperties($properties)
+    {
+        return new static($this->propertiesToTimestamp($properties + $this->getProperties()));
+    }
+    
+    /**
+     * @param array $properties
+     * @return int
+     */
+    protected function propertiesToTimestamp($properties)
+    {
+        return mktime(
+            $properties['hours'],
+            $properties['minutes'],
+            $properties['seconds'],
+            $properties['mon'],
+            $properties['mday'],
+            $properties['year']
         );
-	}
+    }
 }
