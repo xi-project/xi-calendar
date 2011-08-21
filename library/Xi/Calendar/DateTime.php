@@ -177,7 +177,7 @@ class DateTime
     public function getDaysInMonth()
     {
         $properties = $this->getProperties();
-        rturn cal_days_in_month(CAL_GREGORIAN, $properties['mon'], $properties['year']);
+        return cal_days_in_month(CAL_GREGORIAN, $properties['mon'], $properties['year']);
     }
     
     /**
