@@ -289,4 +289,76 @@ class DateTimeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $diff->m);
         $this->assertEquals(1, $diff->d);
     }
+    
+    /**
+     * @test
+     */
+    public function shouldBeAbleToGetWithDayOfMonth()
+    {
+        $this->assertEquals($this->getSampleDatetime()->withDayOfMonth(3)->getDayOfMonth(), 3);
+    }
+    
+    /**
+     * @test
+     */
+    public function shouldBeAbleToGetWithDayOfYear()
+    {
+        $this->assertEquals($this->getSampleDateTime()->withDayOfYear(3)->getDayOfYear(), 3);
+    }
+    
+    /**
+     * @test
+     */
+    public function shouldBeAbleToGetWithWeek()
+    {
+        $this->assertEquals($this->getSampleDateTime()->withWeek(3)->getWeek(), 3);
+    }
+    
+    /**
+     * @test
+     */
+    public function shouldBeAbleToGetWithDayOfWeek()
+    {
+        $this->assertEquals($this->getSampleDateTime()->withDayOfWeek(3)->getDayOfWeek(), 3);
+    }
+    
+    /**
+     * @test
+     */
+    public function shouldBeAbleToGetWithYear()
+    {
+        $this->assertEquals($this->getSampleDateTime()->withYear(2003)->getYear(), 2003);
+    }
+    
+    /**
+     * @test
+     */
+    public function shouldBeAbleToGetWithMonth()
+    {
+        $this->assertEquals($this->getSampleDateTime()->withMonth(3)->getMonth(), 3);
+    }
+    
+    /**
+     * @test
+     */
+    public function shouldBeAbleToGetWithHour()
+    {
+        $this->assertEquals($this->getSampleDateTime()->withHour(3)->getHour(), 3);
+    }
+    
+    /**
+     * @test
+     */
+    public function shouldBeAbleToGetWithMinute()
+    {
+        $this->assertEquals($this->getSampleDateTime()->withMinute(3)->getMinute(), 3);
+    }
+    
+    /**
+     * @test
+     */
+    public function shouldBeAbleToGetWithSecond()
+    {
+        $this->assertEquals($this->getSampleDateTime()->withSecond(3)->getSecond(), 3);
+    }
 }
