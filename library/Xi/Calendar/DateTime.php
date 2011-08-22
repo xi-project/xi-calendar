@@ -90,14 +90,23 @@ class DateTime
      */
     public function __construct($time = null)
     {
+        $this->datetime = $this->toDatetime($time);
+    }
+    
+    /**
+     * @param int|string|NativeDateTime $time
+     * @return NativeDateTime
+     */
+    protected function toDatetime($time)
+    {
         if (null === $time) {
-            $time = new NativeDateTime();
+            return new NativeDateTime();
         } elseif (is_int($time)) {
-            $time = new NativeDateTime("@$time");
+            return new NativeDateTime("@$time");
         } elseif (!($time instanceof NativeDateTime)) {
-            $time = new NativeDateTime($time);
+            return new NativeDateTime($time);
         }
-        $this->datetime = $time;
+        return $time;
     }
     
     /**
@@ -121,6 +130,10 @@ class DateTime
      */
     public static function createFromFormat($format, $datetime, $timezone = null)
     {
+        // NativeDateTime::createFromFormat fails if called with a null timezone
+        if (null === $timezone) {
+            return new static(NativeDateTime::createFromFormat($format, $datetime));
+        }
         return new static(NativeDateTime::createFromFormat($format, $datetime, $timezone));
     }
     
@@ -222,19 +235,19 @@ class DateTime
     }
     
     /**
-     * @return int between 1 and 12
-     */
-    public function getMonth()
-    {
-        return $this->getProperty('mon');
-    }
-    
-    /**
      * @return int
      */
     public function getYear()
     {
         return $this->getProperty('year');
+    }
+    
+    /**
+     * @return int between 1 and 12
+     */
+    public function getMonth()
+    {
+        return $this->getProperty('mon');
     }
     
     /**
@@ -275,7 +288,7 @@ class DateTime
             $p = getdate($this->getTimestamp());
             
             // Weekdays start from monday as 1
-            if (!$p['wday'])
+            if (0 == $p['wday'])
             {
                 $p['wday'] = 7;
             }
@@ -321,11 +334,11 @@ class DateTime
      * not modify hour, minute and second components.
      * 
      * @param int $year
-     * @param int $week
-     * @param int $day optional, defaults to 1 (monday)
+     * @param int $week offset from the first week of the year
+     * @param int $day optional offset from the first day of the week, defaults to 0 (monday)
      * @return DateTime
      */
-    public function withISODate($year, $week, $day = 1)
+    public function withISODate($year, $week, $day = 0)
     {
         return $this->withModification(function($datetime) use($year, $week, $day) {
             $datetime->setISODate($year, $week, $day);
@@ -352,12 +365,12 @@ class DateTime
      * Get a new DateTime with the given DateInterval or integer (seconds)
      * subtracted.
      * 
-     * @param int|DateInterval $interval
+     * @param int|string|DateInterval $interval
      * @return DateTime
      */
     public function withSubtraction($interval)
     {
-        $interval = $this->toInterval($value);
+        $interval = $this->toInterval($interval);
         return $this->withModification(function($datetime) use($interval) {
             $datetime->sub($interval);
         });
@@ -367,12 +380,12 @@ class DateTime
      * Get a new DateTime with the given DateInterval or integer (seconds)
      * added.
      * 
-     * @param int|DateInterval $interval
+     * @param int|string|DateInterval $interval
      * @return DateTime
      */
     public function withAddition($interval)
     {
-        $interval = $this->toInterval($value);
+        $interval = $this->toInterval($interval);
         return $this->withModification(function($datetime) use($interval) {
             $datetime->add($interval);
         });
@@ -381,6 +394,9 @@ class DateTime
     /**
      * Create a new DateTime object by incrementing or decrementing in a format
      * accepted by strtotime().
+     * 
+     * FIXME: This function's signature does not adhere to the functional style
+     * followed elsewhere in this class.
      * 
      * @param string $modification
      * @return DateTime
@@ -507,13 +523,19 @@ class DateTime
     }
     
     /**
-     * @param int|DateInterval $value
+     * @param int|string|DateInterval $interval
      * @return DateInterval
      */
-    protected function toInterval($value)
+    protected function toInterval($interval)
     {
+        if (is_int($interval)) {
+            $interval = (int) $interval . ' seconds';
+        }
+        if (is_string($interval)) {
+            return DateInterval::createFromDateString($interval);
+        }
         if (!($interval instanceof DateInterval)) {
-            $interval = DateInterval::createFromDateString((int) $interval + ' seconds');
+            return new DateInterval($interval);
         }
         return $interval;
     }
