@@ -86,14 +86,29 @@ class DateTime
      * PHP DateTime. Uses the default timezone unless a NativeDateTime with a
      * non-default DateTimeZone is provided.
      *
-     * @param int|string|NativeDateTime $time
+     * @param int|string|NativeDateTime $time optional
      */
-    public function __construct($time)
+    public function __construct($time = null)
     {
-        if (!($time instanceof NativeDateTime)) {
+        if (null === $time) {
+            $time = new NativeDateTime();
+        } elseif (is_int($time)) {
+            $time = new NativeDateTime("@$time");
+        } elseif (!($time instanceof NativeDateTime)) {
             $time = new NativeDateTime($time);
         }
         $this->datetime = $time;
+    }
+    
+    /**
+     * Fluent alias for `new DateTime`
+     * 
+     * @param int|string|NativeDateTime $time optional
+     * @return DateTime
+     */
+    public static function create($time = null)
+    {
+        return new static($time);
     }
     
     /**
@@ -177,7 +192,7 @@ class DateTime
     public function getDaysInMonth()
     {
         $properties = $this->getProperties();
-        rturn cal_days_in_month(CAL_GREGORIAN, $properties['mon'], $properties['year']);
+        return cal_days_in_month(CAL_GREGORIAN, $properties['mon'], $properties['year']);
     }
     
     /**
