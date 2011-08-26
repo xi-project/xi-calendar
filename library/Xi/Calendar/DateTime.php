@@ -547,10 +547,7 @@ class DateTime
      */
     protected function withModifiedProperty($property, $value)
     {
-        return $this->withModifiedProperties(function($p) use($property, $value) {
-            $p[$property] = $value;
-            return $p;
-        });
+        return $this->withProperties(array($property => $value));
     }
     
     /**
